@@ -6,12 +6,15 @@ namespace App\Entity;
 // qui correspond à une dossier 'mapping' de Doctrine
 
 use DateTime;
+use App\Repository\MovieRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 // cette classe Movie est une entité doctrine
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=MovieRepository::class)
  */
 class Movie
 {
@@ -46,6 +49,16 @@ class Movie
    * @ORM\Column(type="datetime", nullable=true)
    */
   private $updatedAt;
+
+  /**
+   * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="movies")
+   */
+  private $genres;
+
+  public function __construct()
+  {
+      $this->genres = new ArrayCollection();
+  }
 
   /**
    * Get clé primaire
@@ -114,5 +127,29 @@ class Movie
     $this->updatedAt = $updatedAt;
 
     return $this;
+  }
+
+  /**
+   * @return Collection|Genre[]
+   */
+  public function getGenres(): Collection
+  {
+      return $this->genres;
+  }
+
+  public function addGenre(Genre $genre): self
+  {
+      if (!$this->genres->contains($genre)) {
+          $this->genres[] = $genre;
+      }
+
+      return $this;
+  }
+
+  public function removeGenre(Genre $genre): self
+  {
+      $this->genres->removeElement($genre);
+
+      return $this;
   }
 }
