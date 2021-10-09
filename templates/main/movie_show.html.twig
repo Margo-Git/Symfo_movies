@@ -13,7 +13,7 @@
 		{% endfor %}
 
 	</p>
-		{% for casting in movie.castings %}
+		{% for casting in castings %}
 		<p>{{casting.person.firstname}}  {{casting.person.lastname}} : {{casting.role}} ({{casting.creditOrder}})</p>
 		{% endfor %}
 	<p>
