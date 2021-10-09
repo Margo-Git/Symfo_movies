@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur Hello Ciné
+{% endblock %}
+
+{% block body %}
+	<h1>Liste des films</h1>
+	<ul>
+		{% for movie in movies %}
+            <li><a href="#">{{movie.title}}</a></li>
+        {% endfor %}
+	</ul>
+{% endblock %}
