@@ -19,22 +19,39 @@ class MovieRepository extends ServiceEntityRepository
         parent::__construct($registry, Movie::class);
     }
 
-    // /**
-    //  * @return Movie[] Returns an array of Movie objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    // Find all movies classée par titre asc version querybuilder
+    public function findAllOrderedByTitleAscQB()
     {
+        // on crée un objet de type query builder sur l'entité Movie
+        // 'm' est alias pour l'entité Movie
         return $this->createQueryBuilder('m')
-            ->andWhere('m.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('m.id', 'ASC')
-            ->setMaxResults(10)
+            // on classe par titre asc
+            ->orderBy('m.title', 'ASC')
+            // on ne veut pas limiter les résultats
+            // ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
+    // même chose version DQL
+
+    public function findAllOrderedByTitleAscDQL()
+    {
+         // C'est le Manager qui va nous permettre d'écrire une requête en DQL
+         $entityManager = $this->getEntityManager();
+
+         // En DQL, on précisé le FQCN (namespace + classe = App\Entity\Movie) de l'entité
+         $query = $entityManager->createQuery(
+             'SELECT m
+             FROM App\Entity\Movie m
+             ORDER BY m.title ASC'
+         );
+ 
+         // returns an array of Movie objects
+         return $query->getResult();
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Movie
