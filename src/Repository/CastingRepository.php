@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Casting;
+use App\Entity\Movie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -28,7 +29,7 @@ class CastingRepository extends ServiceEntityRepository
      * INNER JOIN `person` ON `casting`.`person_id` = `person`.`id`
      * WHERE `movie_id` = 7
      */
-    public function findAllCastingsByMovieJoinedToPersonDQL(int $movieId)
+    public function findAllCastingsByMovieJoinedToPersonDQL(Movie $movie)
     {
         $entityManager = $this->getEntityManager();
 
@@ -37,9 +38,9 @@ class CastingRepository extends ServiceEntityRepository
             -- je veux récupérer des données de person depuis l\'entité casting
             FROM App\Entity\Casting c
             INNER JOIN c.person p
-            WHERE c.movie = :id
+            WHERE c.movie = :movie
             ORDER BY c.creditOrder'
-        )->setParameter('id', $movieId);
+        )->setParameter('movie', $movie);
 
         return $query->getResult();
     }

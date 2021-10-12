@@ -38,7 +38,7 @@ class MainController extends AbstractController
         }
 
         // on utilise notre requête custom
-        $castings = $castingRepository->findAllCastingsByMovieJoinedToPersonDQL($movie->getId());
+        $castings = $castingRepository->findAllCastingsByMovieJoinedToPersonDQL($movie);
 
         
         return $this->render('main/movie_show.html.twig', [
