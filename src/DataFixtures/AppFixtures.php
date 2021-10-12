@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\DataFixtures\Provider\MovieDbProvider;
 use App\Entity\Genre;
 use App\Entity\Movie;
 use App\Entity\Person;
@@ -14,6 +15,8 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+        // notre fournisseur de données
+        $movieDbProvider = new MovieDbProvider();
 
         // create 10 genre
 
@@ -23,7 +26,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i <= 20; $i++) {
 
             $genre = new Genre();
-            $genre->setName('Genre ' . $i);
+            $genre->setName($movieDbProvider->movieGenre());
 
             // on stocke les genres pour association ultérieure
             $genresList[] = $genre;
@@ -31,14 +34,14 @@ class AppFixtures extends Fixture
             $manager->persist($genre);
         }
 
-        // create 20 movies
+        // create 25 movies
 
         $moviesList = [];
 
-        for ($i = 0; $i <= 20; $i++) {
+        for ($i = 0; $i <= 25; $i++) {
 
             $movie = new Movie();
-            $movie->setTitle('Film ' . $i);
+            $movie->setTitle($movieDbProvider->movieTitle());
             $movie->setCreatedAt(new DateTime());
 
             // Association de 3 genres random
