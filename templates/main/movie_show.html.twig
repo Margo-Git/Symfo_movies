@@ -12,6 +12,8 @@
 			{{genre.name}}{{ loop.last ? '' : ', ' }}
 		{% endfor %}
 
+		<h2>Casting</h2>
+
 	</p>
 		{% for casting in castings %}
 		<p>{{casting.person.firstname}}  {{casting.person.lastname}} : {{casting.role}} ({{casting.creditOrder}})</p>

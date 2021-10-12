@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\DataFixtures\Provider\MovieDbProvider;
+use Faker;
 use App\Entity\Genre;
 use App\Entity\Movie;
 use App\Entity\Person;
@@ -15,6 +16,10 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+
+        // créons une instance de faker (il faut use faker plus haut)
+        $faker = Faker\Factory::create();
+
         // notre fournisseur de données
         $movieDbProvider = new MovieDbProvider();
 
@@ -61,8 +66,8 @@ class AppFixtures extends Fixture
         for ($i = 0; $i <= 20; $i++) {
 
             $person = new Person();
-            $person->setFirstname('Prénom ' . $i);
-            $person->setLastname('Nom ' . $i);
+            $person->setFirstname($faker->firstName());
+            $person->setLastname($faker->lastName());
 
             $personsList[] = $person;
 
@@ -72,7 +77,7 @@ class AppFixtures extends Fixture
         // Les castings
         for ($i = 1; $i < 100; $i++) {
             $casting = new Casting();
-            $casting->setRole('Rôle ' . $i);
+            $casting->setRole($faker->firstName());
             $casting->setCreditOrder(mt_rand(1, 10));
 
             // On va chercher un film au hasard dans la liste des films créée au-dessus
