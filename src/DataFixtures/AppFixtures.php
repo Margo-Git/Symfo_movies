@@ -18,10 +18,14 @@ class AppFixtures extends Fixture
     {
 
         // créons une instance de faker (il faut use faker plus haut)
-        $faker = Faker\Factory::create();
+        $faker = Faker\Factory::create('fr_FR');
 
-        // notre fournisseur de données
-        $movieDbProvider = new MovieDbProvider();
+
+        // si on veut générer toujours les même données :
+        // $faker->seed('1234');
+
+        // notre fournisseur de données, ajouté a faker
+        $faker->addProvider(new MovieDbProvider);
 
         // create 10 genre
 
@@ -31,7 +35,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i <= 20; $i++) {
 
             $genre = new Genre();
-            $genre->setName($movieDbProvider->movieGenre());
+            $genre->setName($faker->unique()->movieGenre());
 
             // on stocke les genres pour association ultérieure
             $genresList[] = $genre;
@@ -46,7 +50,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i <= 25; $i++) {
 
             $movie = new Movie();
-            $movie->setTitle($movieDbProvider->movieTitle());
+            $movie->setTitle($faker->unique()->movieTitle());
             $movie->setCreatedAt(new DateTime());
 
             // Association de 3 genres random
