@@ -61,10 +61,36 @@ class Movie
    */
   private $castings;
 
+  /**
+   * @ORM\OneToMany(targetEntity=Review::class, mappedBy="movie", orphanRemoval=true)
+   */
+  private $reviews;
+
+  /**
+   * @ORM\Column(type="datetime")
+   */
+  private $releaseDate;
+
+  /**
+   * @ORM\Column(type="smallint")
+   */
+  private $duration;
+
+  /**
+   * @ORM\Column(type="string", length=2048, nullable=true)
+   */
+  private $poster;
+
+  /**
+   * @ORM\Column(type="smallint", nullable=true)
+   */
+  private $rating;
+
   public function __construct()
   {
       $this->genres = new ArrayCollection();
       $this->castings = new ArrayCollection();
+      $this->reviews = new ArrayCollection();
   }
 
   /**
@@ -186,6 +212,84 @@ class Movie
               $casting->setMovie(null);
           }
       }
+
+      return $this;
+  }
+
+  /**
+   * @return Collection|Review[]
+   */
+  public function getReviews(): Collection
+  {
+      return $this->reviews;
+  }
+
+  public function addReview(Review $review): self
+  {
+      if (!$this->reviews->contains($review)) {
+          $this->reviews[] = $review;
+          $review->setMovie($this);
+      }
+
+      return $this;
+  }
+
+  public function removeReview(Review $review): self
+  {
+      if ($this->reviews->removeElement($review)) {
+          // set the owning side to null (unless already changed)
+          if ($review->getMovie() === $this) {
+              $review->setMovie(null);
+          }
+      }
+
+      return $this;
+  }
+
+  public function getReleaseDate(): ?\DateTime
+  {
+      return $this->releaseDate;
+  }
+
+  public function setReleaseDate(\DateTime $releaseDate): self
+  {
+      $this->releaseDate = $releaseDate;
+
+      return $this;
+  }
+
+  public function getDuration(): ?int
+  {
+      return $this->duration;
+  }
+
+  public function setDuration(int $duration): self
+  {
+      $this->duration = $duration;
+
+      return $this;
+  }
+
+  public function getPoster(): ?string
+  {
+      return $this->poster;
+  }
+
+  public function setPoster(?string $poster): self
+  {
+      $this->poster = $poster;
+
+      return $this;
+  }
+
+  public function getRating(): ?int
+  {
+      return $this->rating;
+  }
+
+  public function setRating(?int $rating): self
+  {
+      $this->rating = $rating;
 
       return $this;
   }

@@ -18,8 +18,15 @@
 		{% for casting in castings %}
 		<p>{{casting.person.firstname}}  {{casting.person.lastname}} : {{casting.role}} ({{casting.creditOrder}})</p>
 		{% endfor %}
-	<p>
 	
-	</p>
+	<h2 class="pt-4" >Critiques</h2>
+
+	<a href="{{ path('movie_add_review', {id: movie.id}) }}" class="btn btn-primary mt-4">Ajouter une critique</a>
+
+	{% for review in movie.reviews %}
+    <div class="pt-4">
+        <p>{{review.username}} Note {{review.rating}}/5, le {{ review.watchedAt|date('d-m-Y H:i') }} : <i>{{ review.content }}</i></p>
+    </div>
+    {% endfor %}
 
 {% endblock %}

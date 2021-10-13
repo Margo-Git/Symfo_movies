@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ajouter une critique{% endblock %}
+
+{% block body %}
+<h1>Ajouter une critique sur {{ movie.title }}</h1>
+
+{% include ('main/_form_add_review.html.twig') %}
+{% endblock %}
+
