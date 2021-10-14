@@ -86,8 +86,11 @@ class Movie
    */
   private $rating;
 
+  // les valeurs par défauts utiles
+
   public function __construct()
   {
+      $this->createdAt = new DateTime();
       $this->genres = new ArrayCollection();
       $this->castings = new ArrayCollection();
       $this->reviews = new ArrayCollection();
