@@ -10,11 +10,27 @@
 			{% block title %}{% endblock %}
 		</title>
 	</head>
-	<body class="p-4 m-4">
+	<body class="p-5 m-5">
 
 		<header>
 			<h1>Hello Ciné</h1>
 		</header>
+
+		<ul class="nav nav-pills mt-4 mb-4">
+			<li class="nav-item">
+				<a class="nav-link ps-1" aria-current="page" href="{{ path('home')}}">Accueil</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="{{ path('back_movie_browse') }}">Admin</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="#">Link</a>
+			</li>
+
+		</ul>
+
+		{# Sous-nav possible #}
+		{% block subnav %}{% endblock %}
 
 		{% block body %}{% endblock %}
 

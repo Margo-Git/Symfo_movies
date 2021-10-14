@@ -10,6 +10,8 @@ use App\Repository\MovieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Constraints\Date;
 
 // cette classe Movie est une entité doctrine
 
@@ -37,6 +39,8 @@ class Movie
    * Titre
    * 
    * @ORM\Column(type="string", length=211)
+   * @Assert\NotBlank
+   * @Assert\Length(max = 211)
    */
   private $title;
 
@@ -52,12 +56,14 @@ class Movie
 
   /**
    * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="movies")
+   * @Assert\Count(min=1)
    */
   private $genres;
 
   /**
-   * @ORM\OneToMany(targetEntity=Casting::class, mappedBy="movie")
+   * @ORM\OneToMany(targetEntity=Casting::class, mappedBy="movie", cascade={"remove"})
    * @ORM\OrderBy({"creditOrder"="ASC"})
+   * 
    */
   private $castings;
 
@@ -68,11 +74,15 @@ class Movie
 
   /**
    * @ORM\Column(type="datetime")
+   * @Assert\NotBlank
    */
   private $releaseDate;
 
   /**
    * @ORM\Column(type="smallint")
+   * @Assert\NotBlank
+   * @Assert\Positive
+   * @Assert\LessThenOrEqual(1440)
    */
   private $duration;
 
@@ -91,6 +101,7 @@ class Movie
   public function __construct()
   {
       $this->createdAt = new DateTime();
+      $this->releaseDate = new DateTime();
       $this->genres = new ArrayCollection();
       $this->castings = new ArrayCollection();
       $this->reviews = new ArrayCollection();

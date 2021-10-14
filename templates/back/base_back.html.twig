@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{# On "injecte" la nav dans le parent #}
+{% block subnav %}
+
+
+	<ul class="nav nav-pills mt-4 mb-4">
+		<li class="nav-item">
+			<a class="nav-link ps-1" aria-current="page" href="">Utilisateurs</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="{{ path('back_movie_browse') }}">Films</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="#">Métiers</a>
+		</li>
+
+	</ul>
+{% endblock %}
