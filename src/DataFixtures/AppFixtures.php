@@ -8,6 +8,7 @@ use App\Entity\Genre;
 use App\Entity\Movie;
 use App\Entity\Person;
 use App\Entity\Casting;
+use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -27,8 +28,26 @@ class AppFixtures extends Fixture
         // notre fournisseur de données, ajouté a faker
         $faker->addProvider(new MovieDbProvider);
 
-        // create 10 genre
+        // ============= 3 users "en dur" : USER, MANAGER, ADMIN  ==============
+        $user = new User();
+        $user->setEmail('user@user.com');
+        $user->setPassword('$2y$13$.sI5N3x9Fe3SvODY1Gz2FeCc7VLjkNpCUd3DfYro.pI6duysEv10S');
+        $user->setRoles(['ROLE_USER']);
+        $manager->persist($user);
 
+        $admin = new User();
+        $admin->setEmail('admin@admin.com');
+        $admin->setPassword('$2y$13$ah//UoakJ89OK32Nq5BD5.LlyOdO.RCmHsJHbN5RcnPsGLT7ZLDLe');
+        $admin->setRoles(['ROLE_ADMIN']);
+        $manager->persist($admin);
+
+        $userManager = new User();
+        $userManager->setEmail('manager@manager.com');
+        $userManager->setPassword('$2y$13$qxFYEbtolTW0ZfPzxVLHI.wVUHpoIMerqENcEfNKVKPfQmHwXXwre');
+        $userManager->setRoles(['ROLE_MANAGER']);
+        $manager->persist($userManager);
+
+        // ========================== create 10 genre ==================================
         // liste des genres
         $genresList = [];
 
@@ -43,7 +62,7 @@ class AppFixtures extends Fixture
             $manager->persist($genre);
         }
 
-        // create 25 movies
+        // ======================= create 25 movies ======================
 
         $moviesList = [];
 

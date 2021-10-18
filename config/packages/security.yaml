@@ -4,16 +4,28 @@ security:
     # https://symfony.com/doc/current/security.html#c-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        App\Entity\User:
+            algorithm: auto
+
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            custom_authenticator: App\Security\LoginFormAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -24,5 +36,20 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        # Admin : Sécuriser toutes les routes /add /edit /delete avec ROLE_ADMIN.
+        # ^ = commence par
+        # [a-z]+ = n'importe quel caractère de a à z (job, movie, user, etc.) de 1 à +
+        - { path: ^/back/[a-z]+/(add|edit|delete), roles: ROLE_ADMIN }
+
+        # si role MANAGER, droit d'accéder à movie browse et movie read
+        - { path: ^/back/[a-z]+/(browse|read), roles: ROLE_MANAGER }
+
+        # Si ROLE_USER, droit d'ajouter une critique sur le film
+        # équivaut à - { path: ^/movie/[0-9]+/add/review, roles: ROLE_USER }
+        - { path: ^/movie/\d+/add/review, roles: ROLE_USER }
+    
+    role_hierarchy:
+        # role admin hérite de role manager
+        ROLE_ADMIN: ROLE_MANAGER
+        # si on souhaite que les manager et admin se comportent comme un USER sur le front
+        ROLE_MANAGER: ROLE_USER
