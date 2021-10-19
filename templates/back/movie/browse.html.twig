@@ -10,11 +10,11 @@
 <div class="my-5 d-flex justify-content-between align-items-center">
 	<h2>Movie List</h2>
 
-	{# {{ include('_flash_messages.html.twig') }} #}
+	{{ include('_flash_messages.html.twig') }}
 
-
+{% if is_granted('ROLE_ADMIN') %}
 		<a href="{{ path('back_movie_add') }}" class="btn btn-success" role="button">Add New Movie</a>
-
+{% endif %}
 
 </div>
 
@@ -39,8 +39,10 @@
             <td>{{ movie.releaseDate | date('m-Y') }}</td>
             <td>
                 <a href="{{ path('back_movie_read', {id: movie.id}) }}"><i class="fas fa-info-circle text-info fa-2x"></i></a>
+								{% if is_granted('ROLE_ADMIN') %}
                 <a href="{{ path('back_movie_edit', {id: movie.id}) }}"><i class="fas fa-pen-square text-warning fa-2x"></i></a>
                 <a href="{{ path('back_movie_delete', {id: movie.id}) }}"><i class="fas fa-trash text-danger fa-2x"></i></a>
+								{% endif %}
                 
                 
             </td>

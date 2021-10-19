@@ -4,6 +4,7 @@ namespace App\Controller\Back;
 
 use App\Entity\Movie;
 use App\Form\MovieType;
+use App\Service\MessageGenerator;
 use App\Repository\MovieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -64,6 +65,7 @@ class MovieController extends AbstractController
             $em->flush();
 
             // $this->addFlash('success', $messageGenerator->getRandomMessage());
+            $this->addFlash('success', 'Movie added.');
 
             return $this->redirectToRoute('back_movie_read', ['id' => $movie->getId()]);
         }
@@ -79,7 +81,7 @@ class MovieController extends AbstractController
      * 
      * @Route("/back/movie/edit/{id<\d+>}", name="back_movie_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Movie $movie = null)
+    public function edit(Request $request, Movie $movie = null, MessageGenerator $messageGenerator)
     {
         // 404 ?
         if ($movie === null) {
@@ -102,6 +104,7 @@ class MovieController extends AbstractController
             $em->flush();
 
             // $this->addFlash('success', $messageGenerator->getRandomMessage());
+            $this->addFlash('success', $messageGenerator->getRandomMessage());
 
             return $this->redirectToRoute('back_movie_read', ['id' => $movie->getId()]);
         }
@@ -132,6 +135,7 @@ class MovieController extends AbstractController
         $entityManager->remove($movie);
         $entityManager->flush();
 
+        $this->addFlash('success', 'Movie deleted.');
         // $this->addFlash('success', $messageGenerator->getRandomMessage());
 
         return $this->redirectToRoute('back_movie_browse');

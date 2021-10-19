@@ -47,7 +47,7 @@ class AppFixtures extends Fixture
         $userManager->setRoles(['ROLE_MANAGER']);
         $manager->persist($userManager);
 
-        // ========================== create 10 genre ==================================
+        // ========================== create 10 genre ===========================
         // liste des genres
         $genresList = [];
 
@@ -62,8 +62,7 @@ class AppFixtures extends Fixture
             $manager->persist($genre);
         }
 
-        // ======================= create 25 movies ======================
-
+        // ========================== create 25 movies ==========================
         $moviesList = [];
 
         for ($i = 0; $i <= 25; $i++) {
@@ -79,7 +78,8 @@ class AppFixtures extends Fixture
 
             // Association de 3 genres random
             for ($r = 1; $r <= mt_rand(1, 3); $r++) {
-                // array_rand va ramener un index au hasard dans le tableau des genres entre 0 et 20
+                // array_rand va ramener un index au hasard
+                // dans le tableau des genres entre 0 et 20
                 $movie->addGenre($genresList[array_rand($genresList)]);
             }
 
@@ -89,7 +89,7 @@ class AppFixtures extends Fixture
             $manager->persist($movie);
         }
 
-        // create 20 persons
+        // ========================= create 20 persons ==========================
         $personsList = [];
         for ($i = 0; $i <= 20; $i++) {
 
@@ -102,7 +102,7 @@ class AppFixtures extends Fixture
             $manager->persist($person);
         }
         
-        // Les castings
+        // ========================== create castings ===========================
         for ($i = 1; $i < 100; $i++) {
             $casting = new Casting();
             $casting->setRole($faker->firstName());
@@ -113,7 +113,8 @@ class AppFixtures extends Fixture
             $randomMovie = $moviesList[mt_rand(0, count($moviesList) - 1)];
             $casting->setMovie($randomMovie);
 
-            // On va chercher une personne au hasard dans la liste des personnes créée au-dessus
+            // On va chercher une personne au hasard
+            // dans la liste des personnes créée au-dessus
             // Variante avec array_rand()
             $randomPerson = $personsList[array_rand($personsList)];
             $casting->setPerson($randomPerson);
