@@ -6,6 +6,7 @@ use App\Entity\Movie;
 use App\Form\MovieType;
 use App\Service\MessageGenerator;
 use App\Repository\MovieRepository;
+use App\Service\MySlugger;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,7 +48,7 @@ class MovieController extends AbstractController
      *
      * @Route("/back/movie/add", name="back_movie_add", methods={"GET", "POST"})
      */
-    public function add(Request $request)
+    public function add(Request $request, MySlugger $mySlugger)
     {
         $movie = new Movie();
 
@@ -56,6 +57,9 @@ class MovieController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // on défini le slug du film depuis son titre
+            $movie->setSlug($mySlugger->slugify($movie->getTitle()));
 
             // On définit le slug du film depuis son titre
             // => transféré dans MovieListener
@@ -81,7 +85,7 @@ class MovieController extends AbstractController
      * 
      * @Route("/back/movie/edit/{id<\d+>}", name="back_movie_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Movie $movie = null, MessageGenerator $messageGenerator)
+    public function edit(Request $request, Movie $movie = null, MessageGenerator $messageGenerator, MySlugger $mySlugger)
     {
         // 404 ?
         if ($movie === null) {
@@ -97,6 +101,8 @@ class MovieController extends AbstractController
             // On définit le slug du film depuis son titre
             // /!\ SEO : il faudra prévoir un système de redirection
             // de l'ancienne URL vers la nouvelle URL (avec un status 302)
+            // on défini le slug du film depuis son titre
+            $movie->setSlug($mySlugger->slugify($movie->getTitle()));
             // => transféré dans MovieListener
 
             $em = $this->getDoctrine()->getManager();

@@ -12,9 +12,22 @@ use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use App\Service\MySlugger;
 
 class AppFixtures extends Fixture
 {
+
+    // le service MySlugger
+
+    private $mySlugger;
+
+    // Injection des services nécessaires
+    public function __construct(mySlugger $mySlugger)
+    {
+        $this->mySlugger = $mySlugger;
+    }
+
     public function load(ObjectManager $manager)
     {
 
@@ -75,6 +88,12 @@ class AppFixtures extends Fixture
             // $movie->setPoster($faker->imageUrl(300, 400));
             $movie->setPoster('https://picsum.photos/200/300');
             $movie->setRating($faker->numberBetween(1, 5));
+
+            // Pour le slug
+            // Attention on instancie pas le slugger avec new : $slugger = new AsciiSlugger();
+            // on va directement injecter le service avec la fonction construct
+            $slug = $this->mySlugger->slugify($movie->getTitle());
+            $movie->setSlug($slug);
 
             // Association de 3 genres random
             for ($r = 1; $r <= mt_rand(1, 3); $r++) {

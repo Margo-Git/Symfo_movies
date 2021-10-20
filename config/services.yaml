@@ -4,7 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    message_generator_is_random: true
+    message_generator_is_random: '%env(bool:MESSAGE_GENERATOR_IS_RANDOM)%'
+    my_slugger_is_lower: '%env(bool:MY_SLUGGER_IS_LOWER)%'
 
 services:
     # default configuration for services in *this* file
@@ -30,4 +31,8 @@ services:
         # arguments à transmettre au constructeur
         arguments:
             # on fait appel à un paramètre de service
-            $isRandom: '%app.message_generator_is_random%'
+            $isRandom: '%message_generator_is_random%'
+
+    App\Service\MySlugger:
+        arguments:
+            $isLower: '%my_slugger_is_lower%'

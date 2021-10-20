@@ -11,12 +11,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\Date;
 
 // cette classe Movie est une entité doctrine
 
 /**
  * @ORM\Entity(repositoryClass=MovieRepository::class)
+ * @UniqueEntity("title")
+ * @UniqueEntity("slug")
  */
 class Movie
 {
@@ -82,7 +85,7 @@ class Movie
    * @ORM\Column(type="smallint")
    * @Assert\NotBlank
    * @Assert\Positive
-   * @Assert\LessThenOrEqual(1440)
+   * @Assert\LessThanOrEqual(1440)
    */
   private $duration;
 
@@ -95,6 +98,11 @@ class Movie
    * @ORM\Column(type="smallint", nullable=true)
    */
   private $rating;
+
+  /**
+   * @ORM\Column(type="string", length=255, unique=true)
+   */
+  private $slug;
 
   // les valeurs par défauts utiles
 
@@ -304,6 +312,18 @@ class Movie
   public function setRating(?int $rating): self
   {
       $this->rating = $rating;
+
+      return $this;
+  }
+
+  public function getSlug(): ?string
+  {
+      return $this->slug;
+  }
+
+  public function setSlug(string $slug): self
+  {
+      $this->slug = $slug;
 
       return $this;
   }

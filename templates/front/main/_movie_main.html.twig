@@ -6,8 +6,7 @@
     {# Poster du film #}
 
     <div class="col-4">
-    {# {{ path('movie_show', { slug: movie.slug }) }} #}
-        <a href="">
+        <a href="{{ path('movie_show', { slug: movie.slug }) }}">
             <img src="{{ asset('default-movie.jpg') }}" class="img-fluid">
         </a>
     </div>
@@ -17,8 +16,7 @@
     <div class="col-8">
 
         {# Titre #}
-        {# {{ path('movie_show', { slug: movie.slug }) }} #}
-        <p><a href="" class="title">{{ movie.title }}</a></p>
+        <p><a href="{{ path('movie_show', { slug: movie.slug }) }}" class="title">{{ movie.title }}</a></p>
 
         {# Genres #}
         <p>{% for genre in movie.genres %}{{ genre.name }}{% if not loop.last %}, {% endif %}{% endfor %}</p>
