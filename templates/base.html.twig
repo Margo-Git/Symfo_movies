@@ -16,9 +16,9 @@
     </head>
     <body>
 
-        {# <!--
+        <!--
             {{ message_generator.getRandomMessage() }}
-        --> #}
+        -->
 
         <nav class="navbar navbar-expand-lg navbar-light">
             <a class="navbar-brand" href="{{ path('home') }}">o'Ciné</a>
@@ -111,11 +111,8 @@
         {# Faux script Google #}
         {# https://symfony.com/doc/current/templating/global_variables.html #}
         <script>
-            
-            {# var tracking_id='{{ ga_tracking }}'; #}
-
+            var tracking_id='{{ ga_tracking }}';
             // ... Suite du script JS
-
         </script>
     </body>
 </html>

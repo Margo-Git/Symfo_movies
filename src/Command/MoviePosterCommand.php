@@ -50,7 +50,7 @@ class MoviePosterCommand extends Command
             // argument = valeur à transmettre à la commande
             ->addArgument('title', InputArgument::OPTIONAL, 'movie title to fetch')
             // flag/modifier/otpion, qui change le comportement de la commande
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
+            ->addOption('dump', 'd', InputOption::VALUE_NONE, 'Dump title movies')
         ;
     }
 
@@ -83,9 +83,19 @@ class MoviePosterCommand extends Command
 
         // On boucle dessus, on va chercher les données associées sur OMDP API
         foreach ($movies as $movie) {
+
+
+            if ($input->getOption('dump')) {
+                $io->info('Fetching ' . $movie->getTitle());
+            }
+
             // on envoie le titre du film à notre service OMDB API
             $moviePoster = $this->omdbApi->fetchPoster($movie->getTitle());
-            // dd($movieData);
+
+            if ($moviePoster === null) {
+                $io->warning('Poster not found :scream:');
+            }
+
             // on met à jour d'url du poster dans le film
             $movie->setPoster($moviePoster);
 

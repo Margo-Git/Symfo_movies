@@ -2,6 +2,12 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     form_themes:
         -  'bootstrap_5_layout.html.twig'
+    # Variables globales
+    # https://symfony.com/doc/current/templating/global_variables.html
+    globals:
+        ga_tracking: 'UA-DFRTG-8'
+        # Exemple avec le service MessageGenerator
+        message_generator: '@App\Service\MessageGenerator'
 
 when@test:
     twig:   
