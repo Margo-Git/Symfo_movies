@@ -59,9 +59,7 @@ class MovieController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             // on défini le slug du film depuis son titre
-            $movie->setSlug($mySlugger->slugify($movie->getTitle()));
-
-            // On définit le slug du film depuis son titre
+            // $movie->setSlug($mySlugger->slugify($movie->getTitle()));
             // => transféré dans MovieListener
 
             $em = $this->getDoctrine()->getManager();
@@ -101,8 +99,9 @@ class MovieController extends AbstractController
             // On définit le slug du film depuis son titre
             // /!\ SEO : il faudra prévoir un système de redirection
             // de l'ancienne URL vers la nouvelle URL (avec un status 302)
+
             // on défini le slug du film depuis son titre
-            $movie->setSlug($mySlugger->slugify($movie->getTitle()));
+            // $movie->setSlug($mySlugger->slugify($movie->getTitle()));
             // => transféré dans MovieListener
 
             $em = $this->getDoctrine()->getManager();

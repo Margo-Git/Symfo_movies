@@ -36,3 +36,23 @@ services:
     App\Service\MySlugger:
         arguments:
             $isLower: '%my_slugger_is_lower%'
+
+
+    App\EventListener\MovieListener:
+        tags:
+            -
+                # 3 options necessaires au fonctionnement
+                name: 'doctrine.orm.entity_listener'
+                # par défaut, le nom de la méthode = nom de l'event
+                event: 'preUpdate'
+                entity: 'App\Entity\Movie'
+                # on peut indiquer le nom de la méthode si différente de l'event
+                method: 'slugify'
+            -
+                # 3 options necessaires au fonctionnement
+                name: 'doctrine.orm.entity_listener'
+                # par défaut, le nom de la méthode = nom de l'event
+                event: 'prePersist'
+                entity: 'App\Entity\Movie'
+                # on peut indiquer le nom de la méthode si différente de l'event
+                method: 'slugify'

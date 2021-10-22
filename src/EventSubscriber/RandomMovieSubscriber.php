@@ -58,7 +58,7 @@ class RandomMovieSubscriber implements EventSubscriberInterface
         // On mélange, on prend le premier
         shuffle($movies);
         $randomMovie = $movies[0];
-        dump($randomMovie);
+        // dump($randomMovie);
 
         // 3. On le transmet à Twig
         $this->twig->addGlobal('randomMovie', $randomMovie);

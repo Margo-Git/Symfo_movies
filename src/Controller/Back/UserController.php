@@ -4,7 +4,7 @@ namespace App\Controller\Back;
 
 use App\Entity\User;
 use App\Form\UserType;
-use App\Form\UserEditType;
+// use App\Form\UserEditType;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +30,9 @@ class UserController extends AbstractController
      */
     public function new(Request $request, UserPasswordHasherInterface $userPasswordHasherInterface): Response
     {
+        // je crée un user, il est vide
         $user = new User();
+        // je le transmet au form, qui donc sera vide
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -71,7 +73,8 @@ class UserController extends AbstractController
     {
         // le form va transmettre les données de la requête à l'entité qui est non mappé
         // Donc on modifie le mot de passe nous meme plus bas si besoin
-        $form = $this->createForm(UserEditType::class, $user);
+        // le transmet le user au form qui donc sera préremplie
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

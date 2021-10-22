@@ -92,8 +92,8 @@ class AppFixtures extends Fixture
             // Pour le slug
             // Attention on instancie pas le slugger avec new : $slugger = new AsciiSlugger();
             // on va directement injecter le service avec la fonction construct
-            $slug = $this->mySlugger->slugify($movie->getTitle());
-            $movie->setSlug($slug);
+            // $slug = $this->mySlugger->slugify($movie->getTitle());
+            // $movie->setSlug($slug); => transféré dans smovie listener
 
             // Association de 3 genres random
             for ($r = 1; $r <= mt_rand(1, 3); $r++) {

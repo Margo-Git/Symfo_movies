@@ -72,9 +72,6 @@ class MoviePosterCommand extends Command
             $movies = $this->movieRepository->findAll();
         }
 
-        if ($input->getOption('option1')) {
-            // ...
-        }
 
         // logique métier : objectif de la commande
         // on récupère les films concernés
