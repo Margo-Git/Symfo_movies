@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 // cette classe Movie est une entité doctrine
 
@@ -40,6 +41,7 @@ class Movie
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"movies_get"})
      */
     private $id;
 
@@ -49,6 +51,7 @@ class Movie
      * @ORM\Column(type="string", length=211)
      * @Assert\NotBlank
      * @Assert\Length(max = 211)
+     * @Groups({"movies_get"})
      */
     private $title;
 
@@ -65,12 +68,14 @@ class Movie
     /**
      * @ORM\ManyToMany(targetEntity=Genre::class, inversedBy="movies")
      * @Assert\Count(min=1)
+     * @Groups({"movies_get"})
      */
     private $genres;
 
     /**
      * @ORM\OneToMany(targetEntity=Casting::class, mappedBy="movie", cascade={"remove"})
      * @ORM\OrderBy({"creditOrder"="ASC"})
+     * @Groups({"movies_get"})
      * 
      */
     private $castings;
@@ -83,6 +88,7 @@ class Movie
     /**
      * @ORM\Column(type="datetime")
      * @Assert\NotBlank
+     * @Groups({"movies_get"})
      */
     private $releaseDate;
 
@@ -91,16 +97,19 @@ class Movie
      * @Assert\NotBlank
      * @Assert\Positive
      * @Assert\LessThanOrEqual(1440)
+     * @Groups({"movies_get"})
      */
     private $duration;
 
     /**
      * @ORM\Column(type="string", length=2048, nullable=true)
+     * @Groups({"movies_get"})
      */
     private $poster;
 
     /**
      * @ORM\Column(type="smallint", nullable=true)
+     * @Groups({"movies_get"})
      */
     private $rating;
 
