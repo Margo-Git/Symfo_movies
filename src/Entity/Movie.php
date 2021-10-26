@@ -110,6 +110,11 @@ class Movie
     /**
      * @ORM\Column(type="smallint", nullable=true)
      * @Groups({"movies_get"})
+     * @Assert\NotBlank
+     * @Assert\Type("int") 
+     * @Assert\Length(max = 1)
+     * @Assert\Choice({5, 4, 3, 2, 1}) 
+     * @Groups({"movies_get"})
      */
     private $rating;
 

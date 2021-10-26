@@ -26,6 +26,8 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
+            json_login:
+                check_path: /api/login
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -36,6 +38,11 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+
+        # Routes api
+        # POST sur Movie = ROLE_ADMIN
+        - { path: ^/api/movies, roles: ROLE_ADMIN, methods: POST }
+
         # Admin : Sécuriser toutes les routes /add /edit /delete avec ROLE_ADMIN.
         # ^ = commence par
         # [a-z]+ = n'importe quel caractère de a à z (job, movie, user, etc.) de 1 à +
