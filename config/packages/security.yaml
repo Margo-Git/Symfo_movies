@@ -59,7 +59,7 @@ security:
         # - { path: ^/api/login, roles: PUBLIC_ACCESS }
         # - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 
-        - { path: ^/api/movies, roles: ROLE_ADMIN, methods: POST }
+        # - { path: ^/api/movies, roles: ROLE_ADMIN, methods: POST }
 
         # Admin : Sécuriser toutes les routes /add /edit /delete avec ROLE_ADMIN.
         # ^ = commence par
