@@ -15,9 +15,26 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
+        # regles pour le JWT
+        login:
+            pattern: ^/api/login
+            stateless: true
+            json_login:
+                # URL de validation du login
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
+        # regles où le token doit s'appliquer (ici les routes contenant /api)
+        api:
+            pattern:   ^/api
+            stateless: true
+            jwt: ~
+
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
         main:
             lazy: true
             provider: app_user_provider
@@ -36,6 +53,14 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
+
+        # Routes API
+        # exemple de la doc : on ouvre le login aux anonymes, et on ouvre l'accès à l'api aux users connectés
+        # - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        # - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
+
+        - { path: ^/api/movies, roles: ROLE_ADMIN, methods: POST }
+
         # Admin : Sécuriser toutes les routes /add /edit /delete avec ROLE_ADMIN.
         # ^ = commence par
         # [a-z]+ = n'importe quel caractère de a à z (job, movie, user, etc.) de 1 à +
