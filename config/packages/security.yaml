@@ -15,17 +15,16 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
-        # regles pour le JWT
         login:
             pattern: ^/api/login
             stateless: true
             json_login:
-                # URL de validation du login
+                #URL de validation du login
                 check_path: /api/login_check
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
-        # regles où le token doit s'appliquer (ici les routes contenant /api)
+        # Regles ou le JWT doit s'appliquer     
         api:
             pattern:   ^/api
             stateless: true
@@ -43,7 +42,7 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
-
+            
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
@@ -54,12 +53,24 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
 
-        # Routes API
-        # exemple de la doc : on ouvre le login aux anonymes, et on ouvre l'accès à l'api aux users connectés
-        # - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        ###
+        ### Routes API
+        ###
+        # Exemple de la doc LexikJWT (qui n'est pas forcément), indique que :
+
+        # 1. On ouvre le login aux anonymes
+        # 2. On autorise l'accès à toute l'API aux utilisateurs connectés
+
+        # - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         # - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
 
-        # - { path: ^/api/movies, roles: ROLE_ADMIN, methods: POST }
+        # POST sur Movie = ROLE_ADMIN
+        - { path: ^/api/movies, roles: ROLE_ADMIN, methods: POST }
+
+
+        ###
+        ### Routes de l'appli Web classique
+        ###
 
         # Admin : Sécuriser toutes les routes /add /edit /delete avec ROLE_ADMIN.
         # ^ = commence par

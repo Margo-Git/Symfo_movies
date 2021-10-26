@@ -60,6 +60,7 @@ class MovieController extends AbstractController
             // $errorsString = (string) $errors;
             // return new Response($errorsString);
             return $this->json(['errors' => $errors], Response::HTTP_UNPROCESSABLE_ENTITY);
+
         }
 
         // persit & flush
@@ -177,4 +178,5 @@ class MovieController extends AbstractController
 
         return $this->json(['message' => 'Le film a bien été supprimé.'], Response::HTTP_OK);
     }
+
 }
